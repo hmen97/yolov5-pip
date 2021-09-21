@@ -32,6 +32,7 @@ BASE_DEPENDENCIES = [
     "thop",
     "pandas",
     "seaborn>=0.11.0",
+    "tensorboard>=2.4.1",
 ]
 
 EXPORT_DEPENDENCIES = [
@@ -41,7 +42,7 @@ EXPORT_DEPENDENCIES = [
 ]
 
 EXTRA_DEPENDENCIES = [
-    "pycocotools>=2.0.0",
+    "pycocotools>=2.0s",
 ]
 
 setup(
