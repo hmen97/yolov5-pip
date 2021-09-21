@@ -42,7 +42,7 @@ EXPORT_DEPENDENCIES = [
 
 EXTRA_DEPENDENCIES = [
     "Cython", 
-    "pycocotools>=2.0",
+    "pycocotools>=2.0s",
     "albumentations>=1.0.3",
 ]
 
