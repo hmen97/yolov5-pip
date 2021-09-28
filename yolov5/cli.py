@@ -20,7 +20,7 @@ def app_detect() -> None:
         {
             "detect": detect,
         }
-    ),
+    )
 
 def app_export() -> None:
     fire.Fire(
