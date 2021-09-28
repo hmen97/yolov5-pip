@@ -1,30 +1,45 @@
 import fire
 
-from yolov5.train import run as train
-from yolov5.val import run as val
-from yolov5.detect import run as detect
-from yolov5.export import run as export
+from yolov5.train import run as yolov5_train
+from yolov5.val import run as yolov5_val
+from yolov5.detect import run as yolov5_detect
+from yolov5.export import run as yolov5_export
 
 
-def app_train_val() -> None:
-    """Cli app."""
+def train() -> None:
     fire.Fire(
         {
-            "train": train,
-            "val": val,
+            "train": yolov5_train,
         }
     )
 
-def app_detect() -> None:
+def val() -> None:
     fire.Fire(
         {
-            "detect": detect,
+            "val": yolov5_val,
         }
     )
 
-def app_export() -> None:
+def detect() -> None:
     fire.Fire(
         {
-            "export": export,
+            "detect": yolov5_detect,
         }
     )
+
+def export() -> None:
+    fire.Fire(
+        {
+            "export": yolov5_export,
+        }
+    )
+
+# def app() -> None:
+#     fire.Fire(
+#         {
+#             "train": train,
+#             "val": val,
+#             "detect": detect,
+#             "export": export,
+#         }
+#     )
