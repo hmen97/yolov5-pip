@@ -12,8 +12,10 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        operating-system: [ubuntu-latest]
+        python-version: [3.6, 3.7]
+        # operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        # python-version: [3.6, 3.7, 3.8, 3.9]
       fail-fast: false
 
     steps:
@@ -46,34 +48,31 @@ jobs:
           restore-keys: ${{ matrix.os }}-${{ matrix.python-version }}-
       - name: Update pip
         run: python -m pip install --upgrade pip
-      - name: Install  numpy and matplotlib for Python 3.6
-        if: matrix.python-version == 3.6
-        run: >
-          pip install "numpy>=1.18.5,<1.20" "matplotlib>=3.2.2,<4"
-      - name: Install dependencies
-        run: >
-          pip install -r requirements.txt
-      - name: Test with unittest
-        run: |
-          python -m unittest
+      # - name: Install base dependencies
+      #   run: >
+      #     pip install -e .
+      # - name: Test with unittest
+      #   run: |
+      #     python -m unittest
       - name: Test scripts
         run: |
           pip install -e .
           di=cpu # inference devices  # define device
-          # train
-          python yolov5/train.py --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --cfg models/yolov5s.yaml --epochs 1 --device $di
-          yolov5 train --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --cfg models/yolov5s.yaml --epochs 1 --device $di
           # detect
           python yolov5/detect.py --weights yolov5/weights/yolov5s.pt --device $di
-          yolov5 detect --weights yolov5/weights/yolov5s.pt --device $di
+          yolov5-detect detect --weights yolov5/weights/yolov5s.pt --device $di
           python yolov5/detect.py --weights runs/train/exp/weights/last.pt --device $di
-          yolov5 detect --weights runs/train/exp/weights/last.pt --device $di
+          yolov5-detect detect --weights runs/train/exp/weights/last.pt --device $di
+          # train
+          pip install -e .[extras]
+          python yolov5/train.py --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --cfg models/yolov5s.yaml --epochs 1 --device $di
+          yolov5-train train --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --cfg models/yolov5s.yaml --epochs 1 --device $di
           # val
           python yolov5/val.py --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --device $di
-          yolov5 val --data yolov5/data/coco128.yaml --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --device $di
+          yolov5-val val --data yolov5/data/coco128.yaml --img 128 --batch 16 --weights yolov5/weights/yolov5s.pt --device $di
           python yolov5/val.py --img 128 --batch 16 --weights runs/train/exp/weights/last.pt --device $di
-          yolov5 val --data yolov5/data/coco128.yaml --img 128 --batch 16 --weights runs/train/exp/weights/last.pt --device $di
+          yolov5-val val --data yolov5/data/coco128.yaml --img 128 --batch 16 --weights runs/train/exp/weights/last.pt --device $di
           # export
-          pip install onnx coremltools
+          pip install -e .[export]
           python yolov5/export.py --weights yolov5/weights/yolov5s.pt --device $di
-          yolov5 export --weights yolov5/weights/yolov5s.pt --device $di
+          yolov5-export export --weights yolov5/weights/yolov5s.pt --device $di
