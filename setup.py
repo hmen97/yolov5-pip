@@ -82,10 +82,10 @@ setup(
     ],
     keywords="machine-learning, deep-learning, ml, pytorch, YOLO, object-detection, vision, YOLOv3, YOLOv4, YOLOv5",
     entry_points={'console_scripts': [
-        "yolov5-detect=yolov5.cli:detect",
-        "yolov5-train=yolov5.cli:train [extras]",
-        "yolov5-val=yolov5.cli:val [extras]",
-        "yolov5-export=yolov5.cli:export [export]",
+        "yolov5-detect=yolov5.cli:app.detect",
+        "yolov5-train=yolov5.cli:app.train [extras]",
+        "yolov5-val=yolov5.cli:app.val [extras]",
+        "yolov5-export=yolov5.cli:app.export [export]",
         ],
     }
 )
